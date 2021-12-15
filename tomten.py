@@ -36,36 +36,47 @@ Skriv sedan ut rad för rad vad önskelistan innehåller.
 
 Mycket nöje! Vi jobbar med detta under tisdagen och onsdagen."""
 
-def skapaönskelista():
-    global filnamn
-    filnamn = input("Skriv vad filen ska heta:\n")
-    global barnnamn
-    barnnamn = input("Skriv in barnens namn:\n")
+#imports
+from termcolor import colored
+#globala variabler
 
+#funktioner
+def skapaönskelista():
+    filnamn = input("Skriv vad filen ska heta:\n")
     with open(filnamn+".txt", "a", encoding="utf8") as körda:
-        print("Skriv in vad barnen önskar sig, skriv '#' om du är klar:\n")
+        körda.write(input("Vad heter barnet?") + " \n")
+        körda.write(colored('Önskelista:'+ '\n', 'blue', attrs=['bold']))
+        print("Skriv in vad barnen önskar sig, skriv '#' om du är klar:" " \n")
         while True:
             saker = input("Vad hen önskar sig: ")
             if "#" in saker:
                 break
             else:
-                körda.write(f"{saker}\n")
+                körda.write(f"{saker}" + " \n")
     
 def läsa_önskelista():
-    with open((filnamn)+".txt", "r", encoding="utf8") as kör:
-        adv = kör.readlines()
-        print(adv) 
+    file = input("Vilke fil vill du läsa upp? (OBS. Du behöver inte skriva .txt efter):" + " \n")
 
+    with open((file)+".txt", "r", encoding="utf8") as kör:
+        adv = kör.readlines()
+        print("")
+        for line in adv:
+            print(line,end="") 
+#main
 def meny():
-    Tr = True
-    while Tr:
-        x = input("Vill du skapa önskelista (skriv skapa), eller vill du läsa önskelista (skriv läsa)?:\n")
+    
+    while True:
+        x = input("Vill du skapa önskelista (skriv skapa), eller vill du läsa önskelista (skriv läsa), (skriv '#' för att avsluta)?:\n")
+        
         if x.lower() == str("skapa"):
             skapaönskelista()
-            
+        
         elif x.lower() == str("läsa"):
-            print(barnnamn)
-            print(läsa_önskelista())
+            läsa_önskelista()
+        
+        elif x.lower() == str("#"):            
+            print(colored('Programmet avslutas...', 'red', attrs=['bold']))
+            break
 
 if __name__ == "__main__":
     
